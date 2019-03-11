@@ -1,6 +1,5 @@
 import {
   Component,
-  AfterViewInit,
   ViewChild,
   QueryList,
   ContentChildren,
@@ -17,7 +16,7 @@ import {
   selector: 'accordion-dynamic-demo', // tslint:disable-line
   templateUrl: './accordion-dynamic.demo.html',
 })
-export class AccordionDynamicDemoComponent implements AfterViewInit {
+export class AccordionDynamicDemoComponent {
 
   // tslint:disable-next-line:no-forward-ref
   @ContentChildren(forwardRef(() => SohoAccordionHeaderComponent))
@@ -36,16 +35,12 @@ export class AccordionDynamicDemoComponent implements AfterViewInit {
 
   @ViewChild(SohoAccordionComponent) accordion: SohoAccordionComponent;
 
-  ngAfterViewInit(): void {
-    this.accordion.updated();
-  }
-
   public addMore() {
     this.sampleData.forEach((d) => { d.expanded = false; });
     const idx = this.sampleData.length + 1;
     this.sampleData.push({ id: idx, header: 'Header ' + idx, content: 'I\'ve added some more header ' + idx, expanded: true });
 
-    // The updates must be called after the add has ocurred to allow for the view to be updated view, otherwise
+    // The updates must be called after the add has occurred to allow for the view to be updated view, otherwise
     // the widget does not see the changes.  Consider changing the
     setTimeout(() => {
       this.accordion.updated();
@@ -75,12 +70,7 @@ export class AccordionDynamicDemoComponent implements AfterViewInit {
 
     if (header) {
       this.headers.forEach((h) => this.accordion.collapse(h));
-
-      // this.accordion.collapse(header)
       header.expanded = true;
-
-      setTimeout(() => { this.accordion.updated(); });
-
     }
   }
 
@@ -89,10 +79,7 @@ export class AccordionDynamicDemoComponent implements AfterViewInit {
 
     if (header) {
       header.expanded = false;
-
-      setTimeout(() => { this.accordion.updated(); });
     }
-
   }
 
 }
